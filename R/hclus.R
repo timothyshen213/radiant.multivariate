@@ -260,7 +260,7 @@ store.hclus <- function(dataset, object, nr_clus = 2, name = "", ...) {
 #' @importFrom gower gower_dist
 #'
 #' @export
-pca <- function(dataset, pca_scale, pca_center, pca_pc){
+princa <- function(dataset, pca_scale, pca_center, pca_pc){
   df<-dataset %>% select(where(is.numeric)) # Extracts only numerical variables from the dataset
   if (ncol(df)<=0){
     return("There are no numerical variables in the dataset. It is not suggested to use Principal Components Analysis for non-numerical data.")
