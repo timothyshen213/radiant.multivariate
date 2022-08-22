@@ -318,3 +318,4 @@ observeEvent(input$modal_kclus_screenshot, {
   kclus_report()
   removeModal() ## remove shiny modal after save
 })
+
