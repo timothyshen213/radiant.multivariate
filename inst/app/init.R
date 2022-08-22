@@ -11,6 +11,7 @@ r_url_list[["Factor"]] <-
 r_url_list[["Hierarchical clustering"]] <- "multivariate/hclus/"
 r_url_list[["K-clustering"]] <-
   list("tabs_kclus" = list("Summary" = "multivariate/kclus/", "Plot" = "multivariate/kclus/plot/"))
+r_url_list[["Principal component analysis"]] <- "multivariate/pca/"
 r_url_list[["Conjoint"]] <-
   list("tabs_conjoint" = list(
     "Summary" = "multivariate/conjoint/",
@@ -39,6 +40,7 @@ options(
         "----", "Cluster",
         tabPanel("Hierarchical", uiOutput("hclus")),
         tabPanel("K-clustering", uiOutput("kclus")),
+        tabPanel("PCA", uiOutput("pca")),
         "----", "Conjoint",
         tabPanel("Conjoint", uiOutput("conjoint"))
       )
