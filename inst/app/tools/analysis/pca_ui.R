@@ -63,7 +63,7 @@ output$pca <- renderUI({
   }
 })
 
-pca_args <- as.list(formals(pca))
+pca_args <- as.list(formals(princa))
 
 pca_inputs <- reactive({
   ## loop needed because reactive values don't allow single bracket indexing
