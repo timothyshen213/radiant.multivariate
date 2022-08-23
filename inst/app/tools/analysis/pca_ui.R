@@ -94,15 +94,14 @@ output$summary_pca <- renderPrint({
   cat("Principal Component Analysis \n")
   .summary_pca()})
 
-output$plot_pca<-renderPlot({
-  .plot_pca()
-})
+# output$plot_pca<-renderPlot({
+#   .plot_pca()})
 
 output$pca <- renderUI({
   register_plot_output(
-    "plot_hclus", ".plot_hclus",
-    width_fun = "hc_plot_width",
-    height_fun = "hc_plot_height"
+    "plot_pca", ".plot_pca",
+    width_fun = "pca_plot_width",
+    height_fun = "pca_plot_height"
   )
 
   pca_output_panels <- tagList(
