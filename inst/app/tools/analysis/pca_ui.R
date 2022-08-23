@@ -55,7 +55,9 @@ output$ui_pca <- renderUI({
 
 
 ## output is called from the main radiant ui.R
-output$summary_pca <- renderPrint(.summary_pca())
+output$summary_pca <- renderPrint({
+  cat("Principal Component Analysis \n")
+  .summary_pca()})
 output$pca <- renderUI({
 
   pca_output_panels <-tabPanel("Summary", verbatimTextOutput("summary_pca"))
