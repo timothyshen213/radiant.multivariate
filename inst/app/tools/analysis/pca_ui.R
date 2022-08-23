@@ -94,9 +94,13 @@ output$summary_pca <- renderPrint({
   cat("Principal Component Analysis \n")
   .summary_pca()})
 output$pca <- renderUI({
+  register_plot_output(
+    "plot_hclus", ".plot_hclus",
+    width_fun = "hc_plot_width",
+    height_fun = "hc_plot_height"
+  )
 
   pca_output_panels <- tagList(
-    tabsetPanel(
     tabPanel(
       "Summary",
       # download_link("dl_km_means"), br(),
@@ -108,7 +112,6 @@ output$pca <- renderUI({
       plotOutput("plot_pca", width = "100%", height = "100%")
     )
   )
-)
 
   stat_tab_panel(
     menu = "Multivariate > Cluster",
