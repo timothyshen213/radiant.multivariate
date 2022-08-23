@@ -55,8 +55,8 @@ output$ui_pca <- renderUI({
 
 
 ## output is called from the main radiant ui.R
+output$summary_pca <- renderPrint(.summary_pca())
 output$pca <- renderUI({
-  register_print_output("summary_pca", ".summary_pca")
 
   pca_output_panels <-tabPanel("Summary", verbatimTextOutput("summary_pca"))
 
