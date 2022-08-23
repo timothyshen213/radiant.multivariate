@@ -21,7 +21,7 @@ Summary method for the pca function
 \details{
 See \url{https://radiant-rstats.github.io/docs/multivariate/hclus.html} for an example in Radiant
 
-See \url{https://radiant-rstats.github.io/docs/multivariate/hclus.html} for an example in Radiant
+Principal Component Analysis ....
 }
 \examples{
 result <- summary.pca(shopping, vars = c("v1:v6"))

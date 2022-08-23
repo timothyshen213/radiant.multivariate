@@ -7,6 +7,8 @@
 #' @param pca_center Boolean value if the dataset is to be centered
 #' @param pca_pc Maximum principal components (default is equal to the number of variables)
 #' @param pca_plot Boolean value if the PCA is to be visualized
+#' @param data_filter Expression entered in, e.g., Data > View to filter the dataset in Radiant. The expression should be a string (e.g., "price > 10000")
+#' @param envir Environment to extract data from
 #'
 #' @return A list of all variables used in pca as an object of class pca
 #'
@@ -14,16 +16,33 @@
 #' @import dplyr
 #'
 #' @export
-pca <- function(dataset, pca_scale, pca_center, pca_pc){
-  df<-dataset %>% select(where(is.numeric)) # Extracts only numerical variables from the dataset
-  if (ncol(df)<=0){
+pca <- function(dataset, pca_scale, pca_center, pca_pc, data_filter = "",
+                envir = parent.frame()){
+  df_name <- if (is_string(dataset)) dataset else deparse(substitute(dataset))
+  dataset <- get_data(dataset, if (labels == "none") vars else c(labels, vars), filt = data_filter, envir = envir) %>%
+    as.data.frame() %>%
+    mutate_if(is.Date, as.numeric)
+  rm(envir)
+  anyCategorical <- sapply(dataset, function(x) is.numeric(x)) == FALSE
+  ## in case : is used
+  if (length(vars) < ncol(dataset)) vars <- colnames(dataset)
+  if (labels != "none") {
+    if (length(unique(dataset[[1]])) == nrow(dataset)) {
+      rownames(dataset) <- dataset[[1]]
+    } else {
+      message("\nThe provided labels are not unique. Please select another labels variable\n")
+      rownames(dataset) <- seq_len(nrow(dataset))
+    }
+    dataset <- select(dataset, -1)
+  }
+  if (ncol(dataser)<=0){
     return("There are no numerical variables in the dataset. It is not suggested to use Principal Components Analysis for non-numerical data.")
   }
   pca_pc = as.numeric(pca_pc)
-  if (pca_pc > ncol(df)){
+  if (pca_pc > ncol(dataset)){
     return("The number of principal components exceed the number of numerical variables from the dataset")
   }
-  df_prcomp<-prcomp(df,center=pca_center,scale.=pca_scale,rank.=pca_pc)
+  df_prcomp<-prcomp(dataset,center=pca_center,scale.=pca_scale,rank.=pca_pc)
 }
 
 #' Summary method for the pca function

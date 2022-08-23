@@ -16,6 +16,8 @@ pca(dataset, pca_scale, pca_center, pca_pc)
 \item{pca_center}{Boolean value if the dataset is to be centered}
 
 \item{pca_pc}{Maximum principal components (default is equal to the number of variables)}
+
+\item{pca_plot}{Boolean value if the PCA is to be visualized}
 }
 \value{
 A list of all variables used in pca as an object of class pca
@@ -25,12 +27,12 @@ A list of all variables used in pca as an object of class pca
 \description{
 Principal Component Anlaysis
 
-Principal Component Anlaysis
+Principal Component Analysis
 }
 \details{
 See \url{https://radiant-rstats.github.io/docs/multivariate/hclus.html} for an example in Radiant
 
-See \url{https://radiant-rstats.github.io/docs/multivariate/hclus.html} for an example in Radiant
+Principal Component Analysis ....
 }
 \examples{
 pca(shopping, vars = "v1:v6") \%>\% str()
