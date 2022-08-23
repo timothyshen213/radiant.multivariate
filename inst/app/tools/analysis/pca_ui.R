@@ -57,10 +57,10 @@ output$pca <- renderUI({
 })
 
 .summary_pca <- reactive({
-  if (not_available(input$hc_vars)) {
+  if (not_available(input$pca_vars)) {
     "This analysis requires one or more variables of type integer or numeric.\nIf these variable types are not available please select another dataset.\n\n" %>%
       suggest_data("toothpaste")
-  } else if (not_pressed(input$hc_run)) {
+  } else if (not_pressed(input$pca_run)) {
     "** Press the Estimate button to generate cluster solution **"
   } else {
     summary(.pca())
@@ -78,3 +78,5 @@ pca_inputs <- reactive({
   }
   pca_args
 })
+
+
