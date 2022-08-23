@@ -65,7 +65,4 @@ summary.pca <- function(object,...){
   pca_display<-object$df_prcomp
   pca_display %<>% print()
   cat("\n\n")
-  cat("Standard Deviations of the Principal Components")
-  sd_display<-object$df_prcomp$sdev
-  sd_display %<>% print()
 }
