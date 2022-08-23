@@ -93,6 +93,11 @@ pca_plot_height <- function() {
 output$summary_pca <- renderPrint({
   cat("Principal Component Analysis \n")
   .summary_pca()})
+
+output$plot_pca<-renderPlot({
+  .plot_pca()
+})
+
 output$pca <- renderUI({
   register_plot_output(
     "plot_hclus", ".plot_hclus",
@@ -138,7 +143,7 @@ output$pca <- renderUI({
   }
 })
 
-.plot_hclus <- eventReactive({
+.plot_pca <- eventReactive({
   c(input$pca_run, input$pca_plots)
   },
   {
