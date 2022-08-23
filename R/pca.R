@@ -3,6 +3,8 @@
 #' @details Principal Component Analysis ....
 #'
 #' @param dataset Dataset
+#' @param vars Vector of variables to include in the analysis
+#' @param labels A vector of labels for the leaves of the tree
 #' @param pca_scale Boolean value if the dataset is to be scaled
 #' @param pca_center Boolean value if the dataset is to be centered
 #' @param pca_pc Maximum principal components (default is equal to the number of variables)
@@ -16,7 +18,7 @@
 #' @import dplyr
 #'
 #' @export
-pca <- function(dataset, pca_scale, pca_center, pca_pc, data_filter = "",
+pca <- function(dataset, vars, labels, pca_scale, pca_center, pca_pc, data_filter = "",
                 envir = parent.frame()){
   df_name <- if (is_string(dataset)) dataset else deparse(substitute(dataset))
   dataset <- get_data(dataset, if (labels == "none") vars else c(labels, vars), filt = data_filter, envir = envir) %>%

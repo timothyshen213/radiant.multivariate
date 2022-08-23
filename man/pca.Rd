@@ -4,18 +4,44 @@
 \alias{pca}
 \title{Principal Component Anlaysis}
 \usage{
-pca(dataset, pca_scale, pca_center, pca_pc)
+pca(
+  dataset,
+  vars,
+  labels,
+  pca_scale,
+  pca_center,
+  pca_pc,
+  data_filter = "",
+  envir = parent.frame()
+)
 
-pca(dataset, pca_scale, pca_center, pca_pc)
+pca(
+  dataset,
+  vars,
+  labels,
+  pca_scale,
+  pca_center,
+  pca_pc,
+  data_filter = "",
+  envir = parent.frame()
+)
 }
 \arguments{
 \item{dataset}{Dataset}
+
+\item{vars}{Vector of variables to include in the analysis}
+
+\item{labels}{A vector of labels for the leaves of the tree}
 
 \item{pca_scale}{Boolean value if the dataset is to be scaled}
 
 \item{pca_center}{Boolean value if the dataset is to be centered}
 
 \item{pca_pc}{Maximum principal components (default is equal to the number of variables)}
+
+\item{data_filter}{Expression entered in, e.g., Data > View to filter the dataset in Radiant. The expression should be a string (e.g., "price > 10000")}
+
+\item{envir}{Environment to extract data from}
 
 \item{pca_plot}{Boolean value if the PCA is to be visualized}
 }
