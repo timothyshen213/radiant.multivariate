@@ -5,7 +5,7 @@ pca_args <- as.list(formals(pca))
 
 pca_inputs <- reactive({
   ## loop needed because reactive values don't allow single bracket indexing
-  pca_args$data_filter <- if (input$show_filter) input$data_filter else ""
+  # pca_args$data_filter <- if (input$show_filter) input$data_filter else ""
   pca_args$dataset <- input$dataset
   for (i in r_drop(names(pca_args))) {
     pca_args[[i]] <- input[[paste0("pca_", i)]]
