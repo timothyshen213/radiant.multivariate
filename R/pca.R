@@ -84,15 +84,10 @@ plot.pca <- function(x,plots = c("scree", "biplot"),shiny = FALSE, custom = FALS
   if (is.character(x)) return(invisible())
   var_explained = (x$df_prcomp$sdev^2)/sum(x$df_prcomp$sdev^2)
   plot_list <- list()
-  if ("scree" %in% plots) {
-    plot_list[["scree"]] <-
-      qplot(c(1:x$pc), var_explained) + geom_line()+xlab("Principal Component")+ylab("Variance Explained")+ ggtitle("Scree Plot") + ylim(0,1)
-  }
-
-  if ("biplot" %in% plots) {
-    plot_list[["biplot"]] <-
+  plot_list[[1]] <-
+      qplot(c(1:x$pc), var_explained) + geom_line() + xlab("Principal Component")+ylab("Variance Explained")+ ggtitle("Scree Plot") + ylim(0,1)
+  plot_list[[2]] <-
       biplot(x$df_prcomp, xlabs="Principal Component 1", ylabs="Principal Component 2", main="Biplot")
-  }
 
   if (length(plot_list) > 0) {
     if (custom) {
