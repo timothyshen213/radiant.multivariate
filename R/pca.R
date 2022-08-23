@@ -6,6 +6,7 @@
 #' @param pca_scale Boolean value if the dataset is to be scaled
 #' @param pca_center Boolean value if the dataset is to be centered
 #' @param pca_pc Maximum principal components (default is equal to the number of variables)
+#' @param pca_plot Boolean value if the PCA is to be visualized
 #'
 #' @return A list of all variables used in pca as an object of class pca
 #'

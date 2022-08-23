@@ -1,6 +1,17 @@
 ###############################
 # Principal component analysis
 ###############################
+pca_args <- as.list(formals(pca))
+
+pca_inputs <- reactive({
+  ## loop needed because reactive values don't allow single bracket indexing
+  pca_args$data_filter <- if (input$show_filter) input$data_filter else ""
+  pca_args$dataset <- input$dataset
+  for (i in r_drop(names(pca_args))) {
+    pca_args[[i]] <- input[[paste0("pca_", i)]]
+  }
+  pca_args
+})
 
 ## add a spinning refresh icon if the tabel needs to be (re)calculated
 run_refresh(pca_args, "pca", init = "vars", label = "Estimate model", relabel = "Re-estimate model")
@@ -48,7 +59,6 @@ output$pca <- renderUI({
 })
 
 .pca <- eventReactive(input$pca_run, {
-  req(input$pca_vars)
   withProgress(message = "Estimating cluster solution", value = 1, {
     pci <- pca_inputs()
     pci$envir <- r_data
@@ -57,26 +67,13 @@ output$pca <- renderUI({
 })
 
 .summary_pca <- reactive({
-  if (not_available(input$pca_vars)) {
-    "This analysis requires one or more variables of type integer or numeric.\nIf these variable types are not available please select another dataset.\n\n" %>%
-      suggest_data("toothpaste")
-  } else if (not_pressed(input$pca_run)) {
+  if (not_pressed(input$pca_run)) {
     "** Press the Estimate button to generate cluster solution **"
   } else {
     summary(.pca())
   }
 })
 
-pca_args <- as.list(formals(pca))
 
-pca_inputs <- reactive({
-  ## loop needed because reactive values don't allow single bracket indexing
-  pca_args$data_filter <- if (input$show_filter) input$data_filter else ""
-  pca_args$dataset <- input$dataset
-  for (i in r_drop(names(pca_args))) {
-    pca_args[[i]] <- input[[paste0("pca_", i)]]
-  }
-  pca_args
-})
 
 
