@@ -35,8 +35,8 @@ output$ui_pca <- renderUI({
     ),
     wellPanel(
       uiOutput("ui_pca_vars"),
-      checkboxInput("pca_scale", "Scale", state_init("pca_scale", TRUE)),
-      checkboxInput("pca_center", "Center", state_init("pca_center", TRUE)),
+      checkboxInput("pca_scal", "Scale", state_init("pca_scal", TRUE)),
+      checkboxInput("pca_cent", "Center", state_init("pca_cent", TRUE)),
       numericInput(
         "pca_pc", "Principal Components",
         min = 0, max = 100, step=1,
@@ -77,12 +77,12 @@ output$pca <- renderUI({
     do.call(pca, pci)
   })
 })
-max_rank = input$pca_pc
+
 .summary_pca <- reactive({
   if (not_pressed(input$pca_run)) {
     "** Press the Estimate button to generate cluster solution **"
   } else {
-    summary(.pca(), max_rank = input$pca_pc)
+    summary(.pca())
   }
 })
 
