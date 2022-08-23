@@ -58,9 +58,7 @@ output$ui_pca <- renderUI({
 output$pca <- renderUI({
   register_print_output("summary_pca", ".summary_pca")
 
-  pca_output_panels <- tagList(
-    tabPanel("Summary", verbatimTextOutput("summary_pca"))
-  )
+  pca_output_panels <-tabPanel("Summary", verbatimTextOutput("summary_pca"))
 
   stat_tab_panel(
     menu = "Multivariate > Cluster",
@@ -71,6 +69,7 @@ output$pca <- renderUI({
 })
 
 .pca <- eventReactive(input$pca_run, {
+  req(input$pca_vars)
   withProgress(message = "Estimating cluster solution", value = 1, {
     pci <- pca_inputs()
     pci$envir <- r_data
