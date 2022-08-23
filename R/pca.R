@@ -66,3 +66,40 @@ summary.pca <- function(object,...){
   pca_display %<>% print()
   cat("\n\n")
 }
+
+#' Plot method for the pca function
+#'
+#' @details Plotting a PCA ...
+#'
+#' @param x Return value from \code{\link{pca}}
+#' @param plots Plots to return.
+#' @param ... further arguments passed to or from other methods
+#'
+#' @seealso \code{\link{hclus}} to generate results
+#' @seealso \code{\link{summary.hclus}} to summarize results
+#'
+#' @export
+plot.pca <- function(x,plots = c("scree", "biplot"),shiny = FALSE, custom = FALSE, ...){
+  if (radiant.data::is_empty(plots)) return(invisible())
+  if (is.character(x)) return(invisible())
+  var_explained = (x$df_prcomp$sdev^2)/sum(x$df_prcomp$sdev^2)
+  plot_list <- list()
+  if ("scree" %in% plots) {
+    plot_list[["scree"]] <-
+      qplot(c(1:x$pc), var_explained) + geom_line()+xlab("Principal Component")+ylab("Variance Explained")+ ggtitle("Scree Plot") + ylim(0,1)
+  }
+
+  if ("biplot" %in% plots) {
+    plot_list[["biplot"]] <-
+      biplot(x$df_prcomp, xlabs="Principal Component 1", ylabs="Principal Component 2", main="Biplot")
+  }
+
+  if (length(plot_list) > 0) {
+    if (custom) {
+      if (length(plot_list) == 1) plot_list[[1]] else plot_list
+    } else {
+      patchwork::wrap_plots(plot_list, ncol = 1) %>%
+        {if (shiny) . else print(.)}
+    }
+  }
+}

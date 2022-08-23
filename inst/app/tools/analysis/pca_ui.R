@@ -1,3 +1,5 @@
+pca_plots <- c("Scree" = "scree", "Biplot" = "biplot")
+
 ###############################
 # Principal component analysis
 ###############################
@@ -43,7 +45,16 @@ output$ui_pca <- renderUI({
         value=state_init("pca_pc",2)
         )
       ),
-      checkboxInput("pca_plot", "Plots", state_init("pca_plot", TRUE))
+    selectizeInput(
+      "pca_plots",
+      label = "Plot(s):", choices = pca_plots,
+      selected = state_multiple("pca_plots", pca_plots, c("scree", "biplot")),
+      multiple = TRUE,
+      options = list(
+        placeholder = "Select plot(s)",
+        plugins = list("remove_button", "drag_drop")
+      )
+    )
     # ,
     # help_and_report(
     #   modal_title = "Poster component analysis",
@@ -53,6 +64,30 @@ output$ui_pca <- renderUI({
   )
 })
 
+pca_plot <- reactive({
+  plots <- input$pca_plots
+  req(plots)
+  ph <- plots %>%
+    {
+      if (length(.) == 1 && . == "dendro") 800 else 400
+    }
+  pw <- if (!radiant.data::is_empty(plots) && length(plots) == 1 && plots == "dendro") 900 else 650
+  list(plot_width = pw, plot_height = ph * length(plots))
+})
+
+pca_plot_width <- function() {
+  pca_plot() %>%
+    {
+      if (is.list(.)) .$plot_width else 650
+    }
+}
+
+pca_plot_height <- function() {
+  pca_plot() %>%
+    {
+      if (is.list(.)) .$plot_height else 400
+    }
+}
 
 ## output is called from the main radiant ui.R
 output$summary_pca <- renderPrint({
@@ -60,7 +95,19 @@ output$summary_pca <- renderPrint({
   .summary_pca()})
 output$pca <- renderUI({
 
-  pca_output_panels <-tabPanel("Summary", verbatimTextOutput("summary_pca"))
+  pca_output_panels <- tabsetPanel(
+    id = "tabs_pca",
+    tabPanel(
+      "Summary",
+      # download_link("dl_km_means"), br(),
+      verbatimTextOutput("summary_pca")
+    ),
+    tabPanel(
+      "Plot",
+      # download_link("dlp_kclus"),
+      plotOutput("plot_pca", width = "100%", height = "100%")
+    )
+  )
 
   stat_tab_panel(
     menu = "Multivariate > Cluster",
@@ -87,6 +134,16 @@ output$pca <- renderUI({
   }
 })
 
+.plot_hclus <- eventReactive({
+  c(input$pca_run, input$pca_plots)
+  },
+  {
+    withProgress(
+      message = "Generating plots", value = 1,
+      capture_plot(plot(.pca(), plots = input$pca_plots))
+      )
+  }
+)
 
 
 
