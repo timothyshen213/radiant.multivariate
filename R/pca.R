@@ -39,11 +39,13 @@ pca <- function(dataset, vars, scal, cent, pc, data_filter = "",
     dataset <- select(dataset, -1)
   }
   if (ncol(dataset)<=0){
-    return("There are no numerical variables in the dataset. It is not suggested to use Principal Components Analysis for non-numerical data.")
+    return("There are no numerical variables in the dataset. It is not suggested to use Principal Components Analysis for non-numerical data." %>%
+             add_class("pca"))
   }
   pc = as.numeric(pc)
   if (pc > ncol(dataset)){
-    return("The number of principal components exceed the number of numerical variables from the dataset")
+    return("The number of principal components exceed the number of numerical variables." %>%
+             add_class("pca"))
   }
   df_prcomp<-prcomp(dataset,center=cent,scale.=scal,rank.=pc)
 }

@@ -81,7 +81,7 @@ output$pca <- renderUI({
   if (not_pressed(input$pca_run)) {
     "** Press the Estimate button to generate cluster solution **"
   } else {
-    summary(.pca())
+    summary.pca()
   }
 })
 
