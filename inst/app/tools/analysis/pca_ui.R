@@ -94,16 +94,10 @@ output$summary_pca <- renderPrint({
   cat("Principal Component Analysis \n")
   .summary_pca()})
 
-# output$plot_pca<-renderPlot({
-#   .plot_pca()})
+output$plot_pca<-renderPlot({
+   .plot_pca()})
 
 output$pca <- renderUI({
-  register_plot_output(
-    "plot_pca", ".plot_pca",
-    width_fun = "pca_plot_width",
-    height_fun = "pca_plot_height"
-  )
-
   pca_output_panels <- tagList(
     tabPanel(
       "Summary",
@@ -113,7 +107,7 @@ output$pca <- renderUI({
     tabPanel(
       "Plot",
       # download_link("dlp_kclus"),
-      plotOutput("plot_pca", width = "100%", height = "100%")
+      plotOutput("plot_pca", width = "300px", height = "300px")
     )
   )
 
@@ -145,13 +139,8 @@ output$pca <- renderUI({
 .plot_pca <- eventReactive({
   c(input$pca_run, input$pca_plots)
   },
-  {
-    withProgress(
-      message = "Generating plots", value = 1,
-      capture_plot(plot(.pca(), plots = input$pca_plots))
-      )
+  {plot(.pca())
   }
 )
-
 
 
