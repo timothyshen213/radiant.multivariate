@@ -77,12 +77,12 @@ output$pca <- renderUI({
     do.call(pca, pci)
   })
 })
-
+max_rank = input$pca_pc
 .summary_pca <- reactive({
   if (not_pressed(input$pca_run)) {
     "** Press the Estimate button to generate cluster solution **"
   } else {
-    summary(.pca(),max_rank =input$pca_pc)
+    summary(.pca(), max_rank = input$pca_pc)
   }
 })
 
