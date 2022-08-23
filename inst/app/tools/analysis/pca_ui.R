@@ -61,7 +61,7 @@ output$pca <- renderUI({
 .pca <- eventReactive(input$pca_run, {
   withProgress(message = "Estimating cluster solution", value = 1, {
     pci <- pca_inputs()
-    pci$envir <- r_data
+    # pci$envir <- r_data
     do.call(pca, pci)
   })
 })
