@@ -20,6 +20,7 @@
 pca <- function(dataset, vars, pca_scale, pca_center, pca_pc, data_filter = "",
                 envir = parent.frame()){
   labels = "none"
+  if (is_not(pca_pc)) pca_pc <- 2
   df_name <- if (is_string(dataset)) dataset else deparse(substitute(dataset))
   dataset <- get_data(dataset, if (labels == "none") vars else c(labels, vars), filt = data_filter, envir = envir) %>%
     as.data.frame() %>%

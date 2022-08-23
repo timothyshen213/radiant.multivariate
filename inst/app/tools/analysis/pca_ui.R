@@ -74,6 +74,7 @@ output$pca <- renderUI({
   withProgress(message = "Estimating cluster solution", value = 1, {
     pci <- pca_inputs()
     pci$envir <- r_data
+    pca_pc=input$pca_pc
     do.call(pca, pci)
   })
 })
