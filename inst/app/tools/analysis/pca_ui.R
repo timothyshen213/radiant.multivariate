@@ -21,12 +21,12 @@ output$ui_pca <- renderUI({
         )
       ),
       checkboxInput("pca_plot", "Plots", state_init("pca_plot", TRUE))
-    ,
-    help_and_report(
-      modal_title = "Poster component analysis",
-      fun_name = "pca",
-      help_file = inclMD(file.path(getOption("radiant.path.multivariate"), "app/tools/help/pca.md"))
-    )
+    # ,
+    # help_and_report(
+    #   modal_title = "Poster component analysis",
+    #   fun_name = "pca",
+    #   help_file = inclMD(file.path(getOption("radiant.path.multivariate"), "app/tools/help/pca.md"))
+    # )
   )
 })
 
