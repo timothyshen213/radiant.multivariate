@@ -74,7 +74,6 @@ output$pca <- renderUI({
   withProgress(message = "Estimating cluster solution", value = 1, {
     pci <- pca_inputs()
     pci$envir <- r_data
-    pca_pc=input$pca_pc
     do.call(pca, pci)
   })
 })
@@ -83,7 +82,7 @@ output$pca <- renderUI({
   if (not_pressed(input$pca_run)) {
     "** Press the Estimate button to generate cluster solution **"
   } else {
-    summary(.pca())
+    summary(.pca(),max_rank =input$pca_pc)
   }
 })
 
