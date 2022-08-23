@@ -35,6 +35,10 @@ output$ui_pca <- renderUI({
 output$pca <- renderUI({
   register_print_output("summary_pca", ".summary_pca")
 
+  pca_output_panels <- tagList(
+    tabPanel("Summary", verbatimTextOutput("summary_pca"))
+  )
+
   stat_tab_panel(
     menu = "Multivariate > Cluster",
     tool = "PCA",
