@@ -37,7 +37,7 @@ pca <- function(dataset, vars, pca_scale, pca_center, pca_pc, data_filter = "",
     }
     dataset <- select(dataset, -1)
   }
-  if (ncol(dataser)<=0){
+  if (ncol(dataset)<=0){
     return("There are no numerical variables in the dataset. It is not suggested to use Principal Components Analysis for non-numerical data.")
   }
   pca_pc = as.numeric(pca_pc)
