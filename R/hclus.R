@@ -23,7 +23,7 @@
 #' @importFrom gower gower_dist
 #'
 #' @export
-hclus1 <- function(
+hclus <- function(
   dataset, vars, labels = "none", distance = "sq.euclidian",
   method = "ward.D", max_cases = 5000,
   standardize = TRUE, data_filter = "",

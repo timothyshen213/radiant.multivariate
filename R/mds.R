@@ -218,7 +218,7 @@ plot.mds <- function(x, rev_dim = NULL, fontsz = 5, shiny = FALSE, custom = FALS
 #' @return A list of all variables used in pca as an object of class pca
 #'
 #' @examples
-#' hclus(shopping, vars = "v1:v6") %>% str()
+#' pca(shopping, vars = "v1:v6") %>% str()
 #'
 #' @seealso \code{\link{summary.hclus}} to summarize results
 #' @seealso \code{\link{plot.hclus}} to plot results
@@ -246,7 +246,7 @@ pca <- function(dataset, pca_scale, pca_center, pca_pc){
 #' @param ... further arguments passed to or from other methods
 #'
 #' @examples
-#' result <- hclus(shopping, vars = c("v1:v6"))
+#' result <- summary.pca(shopping, vars = c("v1:v6"))
 #' summary(result)
 #'
 #' @seealso \code{\link{hclus}} to generate results
@@ -262,19 +262,3 @@ summary.pca <- function(object,...){
   sd_display<-object$df_prcomp$sdev
   sd_display %<>% print()
 }
-
-#' Plot method for the pca function
-#'
-#' @details See \url{https://radiant-rstats.github.io/docs/multivariate/hclus.html} for an example in Radiant
-#'
-#' @param object Return value from \code{\link{pca}}
-#' @param ... further arguments passed to or from other methods
-#'
-#' @examples
-#' result <- hclus(shopping, vars = c("v1:v6"))
-#' summary(result)
-#'
-#' @seealso \code{\link{hclus}} to generate results
-#' @seealso \code{\link{plot.hclus}} to plot results
-#'
-#' @export
