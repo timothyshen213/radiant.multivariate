@@ -48,7 +48,9 @@ pca <- function(dataset, vars, scal, cent, pc, data_filter = "",
              add_class("pca"))
   }
   df_prcomp<-prcomp(dataset,center=cent,scale.=scal,rank.=pc)
+  as.list(environment()) %>% add_class("pca")
 }
+
 
 #' Summary method for the pca function
 #'
@@ -61,10 +63,14 @@ pca <- function(dataset, vars, scal, cent, pc, data_filter = "",
 #'
 #' @export
 summary.pca <- function(object,...){
-  cat("Principal Component Analysis \n")
-  pca_display<-object$df_prcomp
-  pca_display %<>% print()
-  cat("\n\n")
+  if (is.character(object)) return(object)
+  cat("Hierarchical cluster analysis\n")
+  cat("Data        :", object$df_name, "\n")
+  cat("Variables   :", paste0(object$vars, collapse = ", "), "\n")
+  cat("Scale :", object$scal, "\n")
+  cat("Center:", object$cent, "\n")
+  display<-object$df_prcomp
+  display %<>% print()
 }
 
 #' Plot method for the pca function

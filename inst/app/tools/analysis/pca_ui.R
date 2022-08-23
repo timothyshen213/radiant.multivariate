@@ -46,16 +46,15 @@ output$ui_pca <- renderUI({
         )
       ),
     selectizeInput(
-      "pca_plots",
-      label = "Plot(s):", choices = pca_plots,
-      selected = state_multiple("pca_plots", pca_plots, c("scree", "biplot")),
-      multiple = TRUE,
-      options = list(
-        placeholder = "Select plot(s)",
-        plugins = list("remove_button", "drag_drop")
-      )
+       "pca_plots",
+       label = "Plot(s):", choices = pca_plots,
+       selected = state_multiple("pca_plots", pca_plots, c("scree", "biplot")),
+       multiple = TRUE,
+       options = list(
+         placeholder = "Select plot(s)",
+         plugins = list("remove_button", "drag_drop")
+       )
     )
-    # ,
     # help_and_report(
     #   modal_title = "Poster component analysis",
     #   fun_name = "pca",
@@ -64,52 +63,57 @@ output$ui_pca <- renderUI({
   )
 })
 
-pca_plot <- reactive({
-  plots <- input$pca_plots
-  req(plots)
-  ph <- plots %>%
-    {
-      if (length(.) == 1 && . == "dendro") 800 else 400
-    }
-  pw <- if (!radiant.data::is_empty(plots) && length(plots) == 1 && plots == "dendro") 900 else 650
-  list(plot_width = pw, plot_height = ph * length(plots))
-})
+ pca_plot <- reactive({
+   plots <- input$pca_plots
+   req(plots)
+   ph <- plots %>%
+     {
+       if (length(.) == 1 && . == "dendro") 800 else 400
+     }
+   pw <- if (!radiant.data::is_empty(plots) && length(plots) == 1 && plots == "dendro") 900 else 650
+   list(plot_width = pw, plot_height = ph * length(plots))
+ })
 
-pca_plot_width <- function() {
-  pca_plot() %>%
-    {
-      if (is.list(.)) .$plot_width else 650
-    }
-}
+ pca_plot_width <- function() {
+   pca_plot() %>%
+     {
+       if (is.list(.)) .$plot_width else 650
+     }
+ }
 
-pca_plot_height <- function() {
-  pca_plot() %>%
-    {
-      if (is.list(.)) .$plot_height else 400
-    }
-}
+ pca_plot_height <- function() {
+   pca_plot() %>%
+     {
+       if (is.list(.)) .$plot_height else 400
+     }
+ }
 
 ## output is called from the main radiant ui.R
 output$summary_pca <- renderPrint({
   cat("Principal Component Analysis \n")
   .summary_pca()})
 
-output$plot_pca<-renderPlot({
-   .plot_pca()})
+# output$plot_pca<-renderPlot({
+#    .plot_pca()})
 
 output$pca <- renderUI({
+  register_plot_output(
+    "plot_pca", ".plot_pca",
+    width_fun = "pca_plot_width",
+    height_fun = "pca_plot_height"
+  )
   pca_output_panels <- tagList(
     tabPanel(
       "Summary",
       # download_link("dl_km_means"), br(),
       verbatimTextOutput("summary_pca")
     ),
-    tabPanel(
-      "Plot",
-      # download_link("dlp_kclus"),
-      plotOutput("plot_pca", width = "300px", height = "300px")
-    )
-  )
+     tabPanel(
+       "Plot",
+       # download_link("dlp_kclus"),
+       plotOutput("plot_pca", height = "100%")
+     )
+   )
 
   stat_tab_panel(
     menu = "Multivariate > Cluster",
@@ -136,11 +140,14 @@ output$pca <- renderUI({
   }
 })
 
-.plot_pca <- eventReactive({
-  c(input$pca_run, input$pca_plots)
+.plot_pca <- eventReactive(
+  {
+    c(input$pca_run, input$pca_plots)
   },
-  {plot(.pca())
+  {withProgress(
+    message = "Generating cluster plot", value = 1,
+    capture_plot(plot(.pca(), plots = input$pca_plots))
+      )
   }
 )
-
 
