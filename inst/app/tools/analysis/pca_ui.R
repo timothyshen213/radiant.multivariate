@@ -90,11 +90,10 @@ output$ui_pca <- renderUI({
 
 ## output is called from the main radiant ui.R
 output$summary_pca <- renderPrint({
-  cat("Principal Component Analysis \n")
   .summary_pca()})
 
-# output$plot_pca<-renderPlot({
-#    .plot_pca()})
+output$plot_pca<-renderPlot({
+    .plot_pca()})
 
 output$pca <- renderUI({
   register_plot_output(
@@ -111,7 +110,7 @@ output$pca <- renderUI({
      tabPanel(
        "Plot",
        # download_link("dlp_kclus"),
-       plotOutput("plot_pca", height = "100%")
+       plotOutput("plot_pca", width = "100%", height = "100%")
      )
    )
 
@@ -134,7 +133,7 @@ output$pca <- renderUI({
 
 .summary_pca <- reactive({
   if (not_pressed(input$pca_run)) {
-    "** Press the Estimate button to generate cluster solution **"
+    "** Select two or more numerical variables to run PCA **"
   } else {
     summary(.pca())
   }

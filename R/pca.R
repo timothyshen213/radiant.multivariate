@@ -64,7 +64,7 @@ pca <- function(dataset, vars, scal, cent, pc, data_filter = "",
 #' @export
 summary.pca <- function(object,...){
   if (is.character(object)) return(object)
-  cat("Hierarchical cluster analysis\n")
+  cat("PRINCIPAL COMPONENT ANALYSIS\n")
   cat("Data        :", object$df_name, "\n")
   cat("Variables   :", paste0(object$vars, collapse = ", "), "\n")
   cat("Scale :", object$scal, "\n")
@@ -84,6 +84,7 @@ summary.pca <- function(object,...){
 #' @param ... further arguments passed to or from other methods
 #'
 #' @import ggplot2
+#' @remote vqv/ggbiplot
 #'
 #' @export
 plot.pca <- function(x,plots = c("scree", "biplot"), shiny = FALSE, custom = FALSE, ...){
@@ -92,12 +93,19 @@ plot.pca <- function(x,plots = c("scree", "biplot"), shiny = FALSE, custom = FAL
   var_explained = (x$df_prcomp$sdev^2)/sum(x$df_prcomp$sdev^2)
   plot_list <- list()
   if ("scree" %in% plots) {
-    plot_list[["scree"]] <-
-      screeplot(x$df_prcomp, type="lines")
+    sp=qplot(c(1:length(var_explained)), var_explained) +
+      geom_line() +
+      geom_point(size=4)+
+      xlab("Principal Component") +
+      ylab("Variance Explained") +
+      ggtitle("Scree Plot") +
+      ylim(0, 1)
+    plot_list[["scree"]] <- sp
   }
   if ("biplot" %in% plots) {
-    plot_list[["biplot"]] <-
-      biplot(x$df_prcomp, xlabs="Principal Component 1", ylabs="Principal Component 2", main="Biplot")
+    options(repr.plot.width =9, repr.plot.height =9)
+    bp = ggbiplot::ggbiplot(x$df_prcomp) + ggtitle("Biplot")
+    plot_list[["biplot"]] <- bp
   }
 
   if (length(plot_list) > 0) {
