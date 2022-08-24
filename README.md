@@ -17,6 +17,7 @@ Radiant is an open-source platform-independent browser-based interface for busin
 
 <iframe width="640" height="375" src="https://www.youtube.com/embed/7L3hDpLw53I" frameborder="0" allowfullscreen></iframe>
 
+- Additional Features added outside Radiant: Principal Component Analysis added as another Clustering method
 
 #### Playlists
 
